@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import * as Constants from './constants.js'
 
 import { Form } from 'semantic-ui-react';
+import Layout from './layout';
 
 const AnyReactComponent = () => <img className="prints" src='https://wheresroo-photo.s3-us-west-1.amazonaws.com/pawprint.png' alt="hi" />
 
@@ -59,44 +60,47 @@ class MapForm extends Component {
   }
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <h2>Have You Spotted Roo?</h2>
-        <Form.TextArea label="Tell us about it" value={this.state.info} onChange={this.handleInfo} placeholder="Roo came up and sniffed me...." />
+      <Layout>
+        <Form onSubmit={this.handleSubmit}>
+          <h2>Have You Spotted Roo?</h2>
+          <Form.TextArea label="Tell us about it" value={this.state.info} onChange={this.handleInfo} placeholder="Roo came up and sniffed me...." />
 
-        <Form.Field>
-          <label>Where? Click on the map!</label>
-        </Form.Field>
-        <div style={{ height: '70vh', width: '100%', margin: 'auto', paddingBottom: '25px' }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: Constants.apiKey }}
-            defaultCenter={Constants.center}
-            defaultZoom={Constants.zoom}
-            yesIWantToUseGoogleMapApiInternals={true}
-            onClick={e => this.handleClick(e)}
-            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-          >
-            <AnyReactComponent
-              lat={this.state.location.lat}
-              lng={this.state.location.lng}
-            />
-          </GoogleMapReact>
-        </div>
-        <Form.Field>
-          <label>Have a pic?</label>
-          <input type="file" accept="image/*" onChange={this.fileChangedHandler} />
-        </Form.Field>
+          <Form.Field>
+            <label>Where? Click on the map!</label>
+          </Form.Field>
+          <div style={{ height: '70vh', width: '100%', margin: 'auto', paddingBottom: '25px' }}>
+            <GoogleMapReact
+              bootstrapURLKeys={{ key: Constants.apiKey }}
+              defaultCenter={Constants.center}
+              defaultZoom={Constants.zoom}
+              yesIWantToUseGoogleMapApiInternals={true}
+              onClick={e => this.handleClick(e)}
+              onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+            >
+              <AnyReactComponent
+                lat={this.state.location.lat}
+                lng={this.state.location.lng}
+              />
+            </GoogleMapReact>
+          </div>
+          <Form.Field>
+            <label>Have a pic?</label>
+            <input type="file" accept="image/*" onChange={this.fileChangedHandler} multiple />
+          </Form.Field>
 
-        <br></br>
-        <Form.Field>
-          <label>From? (optional)</label>
-          <p className="insta">Include Instagram @ to be tagged on insta</p>
-          <Form.Input value={this.state.name} onChange={this.handleName} placeholder="@wheresroo" />
-        </Form.Field>
+          <br></br>
+          <Form.Field>
+            <label>From? (optional)</label>
+            <p className="insta">Include Instagram @ to be tagged on insta</p>
+            <Form.Input value={this.state.name} onChange={this.handleName} placeholder="@wheresroo" />
+          </Form.Field>
 
-        <br></br>
-        <Form.Button>Submit</Form.Button>
-        <br></br>
-      </Form>
+          <br></br>
+          <Form.Button>Submit</Form.Button>
+          <br></br>
+        </Form>
+      </Layout>
+
     );
   }
 }

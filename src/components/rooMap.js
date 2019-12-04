@@ -4,6 +4,10 @@ import GoogleMapReact from 'google-map-react';
 import * as Constants from './constants.js';
 import { Button } from 'semantic-ui-react';
 import { isBrowser } from "react-device-detect";
+import Style from './App.css';
+
+import Layout from './layout'
+
 
 const dummyData = [
   {
@@ -161,7 +165,7 @@ class PopUp extends Component {
     var className = this.props.bPop ? "show " : "hidden ";
     var anotherClass = isBrowser ? "not" : "mobile";
     return (<div className={className + anotherClass}>
-      <img alt="hi" className={(isBrowser ? "popimg" : "pop-mobile")} src={this.props.pop.pic}></img>
+      <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={this.props.pop.pic}></img>
       <p>{this.props.pop.info}</p>
       <span className="bold">{this.props.pop.name}</span>
       <br></br>
@@ -214,31 +218,33 @@ class RooMap extends Component {
   render() {
     return (
       // Important! Always set the container height explicitly
+      <Layout>
+        <div style={{ height: '70vh', width: '100%', margin: 'auto' }}>
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: Constants.apiKey }}
+            defaultCenter={Constants.center}
+            defaultZoom={Constants.zoom}
+            yesIWantToUseGoogleMapApiInternals={true}
+            onClick={e => this.handleClick(e)}
+            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+          >{
+              dummyData.map((d, index) => {
+                return <AnyReactComponent
+                  showPopUp={this.showPopUp}
+                  index={index}
+                  key={index}
+                  lat={d.lat}
+                  lng={d.lng}
 
-      <div style={{ height: '70vh', width: '100%', margin: 'auto' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: Constants.apiKey }}
-          defaultCenter={Constants.center}
-          defaultZoom={Constants.zoom}
-          yesIWantToUseGoogleMapApiInternals={true}
-          onClick={e => this.handleClick(e)}
-          onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-        >{
-            dummyData.map((d, index) => {
-              return <AnyReactComponent
-                showPopUp={this.showPopUp}
-                index={index}
-                key={index}
-                lat={d.lat}
-                lng={d.lng}
+                />
+              })
+            }
 
-              />
-            })
-          }
+          </GoogleMapReact>
+          <PopUp pop={this.state.pop} bPop={this.state.bPop} closePopUp={this.closePopUp} />
+        </div>
+      </Layout>
 
-        </GoogleMapReact>
-        <PopUp pop={this.state.pop} bPop={this.state.bPop} closePopUp={this.closePopUp} />
-      </div>
     );
   }
 }

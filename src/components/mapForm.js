@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import * as Constants from './constants.js'
+import * as config from '../../config.js';
 
+import { addEntry } from '../api';
+import S3FileUpload from 'react-s3';
 import { Form } from 'semantic-ui-react';
 import Layout from './layout';
 
-const AnyReactComponent = () => <img className="prints" src='https://wheresroo-photo.s3-us-west-1.amazonaws.com/pawprint.png' alt="hi" />
+
+const configy = {
+  bucketName: 'wheresroo-photo',
+  dirName: 'map', /* optional */
+  region: 'us-west-1',
+  accessKeyId: config.key,
+  secretAccessKey: config.secret,
+}
+
+
+const Marker = () => <img className="prints" src='https://wheresroo-photo.s3-us-west-1.amazonaws.com/pawprint.png' alt="hi" />
+
 
 const handleApiLoaded = (map, maps) => {
   // use map and maps objects
@@ -50,14 +64,24 @@ class MapForm extends Component {
   }
 
   fileChangedHandler(event) {
-    this.setState({ image: event.target.files[0] })
+    S3FileUpload.uploadFile(event.target.files[0], configy).then(resp => this.setState({ image: resp.location }))
   }
-
 
   handleSubmit(event) {
     console.log(this.state);
-    //event.preventDefault();
+    addEntry(this.state);
+    event.preventDefault();
+    this.setState({
+      location: {
+        lat: null,
+        lng: null
+      },
+      image: '',
+      info: "",
+      name: ""
+    })
   }
+
   render() {
     return (
       <Layout>
@@ -77,7 +101,7 @@ class MapForm extends Component {
               onClick={e => this.handleClick(e)}
               onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
             >
-              <AnyReactComponent
+              <Marker
                 lat={this.state.location.lat}
                 lng={this.state.location.lng}
               />

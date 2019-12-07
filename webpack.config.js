@@ -1,14 +1,13 @@
-const webpack = require('webpack');
+//const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const port = process.env.PORT || 3000;
-
 module.exports = {
     // Webpack configuration goes here
     mode: 'development',
     entry: './src/index.js',
     output: {
-        filename: 'bundle.[hash].js'
+        filename: 'bundle.js'
     },
     devtool: 'inline-source-map',
     module: {
@@ -38,8 +37,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'public/index.html',
-            favicon: 'public/favicon.ico'
+            template: 'dist/app.html',
+            favicon: 'dist/favicon.ico'
         })
     ],
     devServer: {

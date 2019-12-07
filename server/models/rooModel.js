@@ -11,7 +11,7 @@ export const RooSchema = new Schema({
         type: Number,
         required: 'lng required'
     },
-    img: {
+    image: {
         type: String
     },
     info: {

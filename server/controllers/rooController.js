@@ -16,7 +16,7 @@ export const addNewEntry = (req, res) => {
 
 
 export const getEntries = (req, res) => {
-    Roo.find({ show: true }, (err, entry) => {
+    Roo.find({ show: true }, { lat: 1, lng: 1 }, (err, entry) => {
         if (err) {
             res.send(err);
         }
@@ -26,11 +26,10 @@ export const getEntries = (req, res) => {
 }
 
 export const getEntryWithId = (req, res) => {
-    Roo.findById(req.params.entryId, (err, entry) => {
+    Roo.findById(req.params.entryId, { lat: 0, lng: 0 }, (err, entry) => {
         if (err) {
             res.send(err);
         }
         res.json(entry);
     })
 }
-

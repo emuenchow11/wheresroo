@@ -2,23 +2,29 @@ import axios from 'axios';
 
 export const getEntryList = () => {
   return axios.get('/entries')
-              .then(resp => resp.data);
+    .then(resp => {
+      return resp.data;
+    })
+    .catch(err => console.log(err));
 };
 
 export const getFullEntry = entryId => {
   return axios.get(`/entries/${entryId}`)
-              .then(resp => resp.data);
+    .then(resp => resp.data)
+    .catch(err => console.log(err));
 };
 
-
+/*
 export const postFile = file => {
   return axios.post('/pictures', file)
-              .then(resp => resp.data);
+    .then(resp => resp.data)
+    .catch(err => console.log(err));
 };
 
-
-export const addEntry = ({location, img, info, name}) => {
-  return axios.post('/entries', { location.lat, location.lng, img, info, name, show: false})
-              .then(resp => resp.data);
+*/
+export const addEntry = ({ location, image, info, name }) => {
+  return axios.post('/entries', { lat: location.lat, lng: location.lng, image, info, name, show: false })
+    .then(resp => resp.data)
+    .catch(err => console.log(err));
 
 };

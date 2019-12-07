@@ -4,9 +4,11 @@ import GoogleMapReact from 'google-map-react';
 import * as Constants from './constants.js';
 import { Button } from 'semantic-ui-react';
 import { isBrowser } from "react-device-detect";
-import Style from './App.css';
+import axios from 'axios';
+import { getEntryList, getFullEntry } from '../api';
 
 import Layout from './layout'
+import { getEntries } from '../../server/controllers/rooController.js';
 
 
 const dummyData = [
@@ -141,10 +143,8 @@ class AnyReactComponent extends Component {
     super(props);
     this.state = { index: props.index };
     this.handleClick = this.handleClick.bind(this)
-
   }
   handleClick() {
-    console.log(this.state.index);
     this.props.showPopUp(this.state.index);
   }
   render() {
@@ -154,18 +154,12 @@ class AnyReactComponent extends Component {
 
 
 class PopUp extends Component {
-  constructor(props) {
-    super(props);
-    this.showPopUp = this.showPopUp.bind(this);
-  }
-  showPopUp() {
-    this.setState({ pop: this.props.pop })
-  }
+
   render() {
     var className = this.props.bPop ? "show " : "hidden ";
     var anotherClass = isBrowser ? "not" : "mobile";
     return (<div className={className + anotherClass}>
-      <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={this.props.pop.pic}></img>
+      <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={this.props.pop.image}></img>
       <p>{this.props.pop.info}</p>
       <span className="bold">{this.props.pop.name}</span>
       <br></br>
@@ -178,27 +172,53 @@ class PopUp extends Component {
 }
 
 class RooMap extends Component {
-  state = {
-    marker: {
-      lat: null,
-      lng: null
-    },
-    location: [],
-    pop: {
-      pic: "",
-      info: "",
-      name: ""
-    },
-    bPop: false
-  };
+
   constructor(props) {
     super(props)
+    this.state = {
+      marker: {
+        lat: null,
+        lng: null
+      },
+      location: [],
+      pop: {
+        pic: "",
+        info: "",
+        name: ""
+      },
+      bPop: false,
+      entries: [{
+        "_id": "5deadbf10767c4571ec89ca8",
+        "lat": 34.07572043262978,
+        "lng": -118.4405578994751
+      }]
+    };
     this.showPopUp = this.showPopUp.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
   }
 
+  componentDidMount() {
+    axios.get('/entries')
+      .then(resp => {
+        this.setState({ entries: resp.data });
+      })
+      .catch(err => console.log(err));
+  }
+
   showPopUp(index) {
-    this.setState({ pop: dummyData[index].pop });
+    axios.get(`/entries/${index}`)
+      .then(resp => {
+        this.setState({
+          pop: {
+            image: resp.data.image,
+            info: resp.data.info,
+            name: resp.data.name
+          }
+
+        });
+      })
+      .catch(err => console.log(err));
+
     this.setState({ bPop: true });
   }
 
@@ -228,11 +248,11 @@ class RooMap extends Component {
             onClick={e => this.handleClick(e)}
             onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
           >{
-              dummyData.map((d, index) => {
+              this.state.entries.map(d => {
                 return <AnyReactComponent
                   showPopUp={this.showPopUp}
-                  index={index}
-                  key={index}
+                  index={d._id}
+                  key={d._id}
                   lat={d.lat}
                   lng={d.lng}
 

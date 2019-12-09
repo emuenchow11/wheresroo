@@ -1,144 +1,13 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-//import pawprint from './pawprint.png';
-import * as Constants from './constants.js';
+import * as config from '../../config.js';
 import { Button } from 'semantic-ui-react';
 import { isBrowser } from "react-device-detect";
 import axios from 'axios';
-import { getEntryList, getFullEntry } from '../api';
 
-import Layout from './layout'
-import { getEntries } from '../../server/controllers/rooController.js';
+import Layout from './layout';
 
-
-const dummyData = [
-  {
-    lat: 34.071015364719536,
-    lng: -118.44690065324306,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo1.png',
-      info: "Roo’s plans to get into John Wooden Center were foiled by the quick-closing doors. She then bristled her tail at a toddler and decided to climb this tree instead. Love this account!",
-      name: "@eliseumetsu"
-    }
-  },
-  {
-    lat: 34.07651523059991,
-    lng: -118.44068228691816,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo2.png',
-      info: "Roo has gone further than she’s ever gone before 😮 She made it all the way to parking structure 3 (north of the sculpture garden)!!",
-      name: "@cynthmartini"
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.449402,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo3.png',
-      info: "Caught posing in front of Sig Pi #fratcat",
-      name: "@elizabethmuenchow"
-    }
-  },
-  {
-    lat: 34.067104,
-    lng: -118.449402,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo4.png',
-      info: "Roo's pawents met while living in Canyon Point",
-      name: "@elizabethmuenchow"
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.449409,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo5.png',
-      info: "Found outside Fir and featured on Free & For Sale",
-      name: ""
-    }
-  },
-  {
-    lat: 34.067102,
-    lng: -118.449402,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo6.png',
-      info: 'Roo was found in a fire escape on Kelton. As someone commented "it just cant stay out of trouble"',
-      name: ""
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.44941,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo7.png',
-      info: "Where's Roo? Gallivanting all around the hill😒 First she visited Hedrick hall and tried to catch a ride on the elevator. Then she snuck into a dorm room in Courtside to get some beauty sleep on a twin XL. ",
-      name: ""
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.44941,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo9.jpg',
-      info: "When a cat approaches you with their tail straight up it means they are open and even happy to meet you. Roo is often spotted with her tail up 😸",
-      name: ""
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.44981,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo10.JPG',
-      info: "we saw Roo strolling around the bottom of Landfair and Gayley. We stopped to say hello then left her to continue adventuring. Then saw her home 2 hours later 😝",
-      name: "@wheresroo"
-    }
-  },
-  {
-    lat: 34.067179,
-    lng: -118.44941,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo11.JPG',
-      info: "Roo made it all the way to Saxon where see strolled into an open dorm like she owned the place",
-      name: ""
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.45241,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo12.jpg',
-      info: "Anyone lose a cat named Roo? Seen at 515 Gayley Ave",
-      name: ""
-    }
-  },
-  {
-    lat: 34.067509,
-    lng: -118.44941,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo13.jpg',
-      info: "",
-      name: ""
-    }
-  },
-  {
-    lat: 34.067109,
-    lng: -118.44041,
-    pop: {
-      pic: 'https://wheresroo-photo.s3-us-west-1.amazonaws.com/map/roo14.JPG',
-      info: "We brought Roo along for grad photos!",
-      name: "@wheresroo"
-    }
-  }
-
-];
-
-const handleApiLoaded = (map, maps) => {
-  // use map and maps objects
-};
-
-
-
-class AnyReactComponent extends Component {
+class Marker extends Component {
   constructor(props) {
     super(props);
     this.state = { index: props.index };
@@ -151,36 +20,27 @@ class AnyReactComponent extends Component {
     return <img className="prints" onClick={this.handleClick} src='https://wheresroo-photo.s3-us-west-1.amazonaws.com/pawprint.png' alt="hi" />
   }
 }
-
-
-class PopUp extends Component {
-
-  render() {
-    var className = this.props.bPop ? "show " : "hidden ";
+const PopUp = props => {
+    var className = props.bPop ? "show " : "hidden ";
     var anotherClass = isBrowser ? "not" : "mobile";
     return (<div className={className + anotherClass}>
-      <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={this.props.pop.image}></img>
-      <p>{this.props.pop.info}</p>
-      <span className="bold">{this.props.pop.name}</span>
+      <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
+      <p>{props.pop.info}</p>
+      <span className="bold">{props.pop.name}</span>
       <br></br>
       <br></br>
-      <Button className="secondary basic" onClick={this.props.closePopUp}>Close</Button>
-
+      <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
     </div>);
   }
 
-}
+
 
 class RooMap extends Component {
-
+_mounted=false;
   constructor(props) {
     super(props)
     this.state = {
-      marker: {
-        lat: null,
-        lng: null
-      },
-      location: [],
+      mount: false,
       pop: {
         pic: "",
         info: "",
@@ -198,11 +58,16 @@ class RooMap extends Component {
   }
 
   componentDidMount() {
+    this._mounted=true;
     axios.get('/entries')
       .then(resp => {
-        this.setState({ entries: resp.data });
+        if (this._mounted)
+          this.setState({ entries: resp.data });
       })
       .catch(err => console.log(err));
+  }
+  componentWillUnmount(){
+    this._mounted=false;
   }
 
   showPopUp(index) {
@@ -214,11 +79,10 @@ class RooMap extends Component {
             info: resp.data.info,
             name: resp.data.name
           }
-
         });
+      
       })
       .catch(err => console.log(err));
-
     this.setState({ bPop: true });
   }
 
@@ -226,14 +90,6 @@ class RooMap extends Component {
     this.setState({ bPop: false });
   }
 
-  handleClick(e) {
-    this.setState({
-      marker: {
-        lat: e.lat,
-        lng: e.lng
-      }
-    })
-  }
 
   render() {
     return (
@@ -241,31 +97,25 @@ class RooMap extends Component {
       <Layout>
         <div style={{ height: '70vh', width: '100%', margin: 'auto' }}>
           <GoogleMapReact
-            bootstrapURLKeys={{ key: Constants.apiKey }}
-            defaultCenter={Constants.center}
-            defaultZoom={Constants.zoom}
-            yesIWantToUseGoogleMapApiInternals={true}
-            onClick={e => this.handleClick(e)}
-            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-          >{
+            bootstrapURLKeys={{key: config.apiKey}}
+            defaultCenter={config.center}
+            defaultZoom={config.zoom}>
+            {
               this.state.entries.map(d => {
-                return <AnyReactComponent
+                return <Marker
                   showPopUp={this.showPopUp}
                   index={d._id}
                   key={d._id}
                   lat={d.lat}
                   lng={d.lng}
-
                 />
               })
             }
-
-          </GoogleMapReact>
+          </GoogleMapReact> 
           <PopUp pop={this.state.pop} bPop={this.state.bPop} closePopUp={this.closePopUp} />
         </div>
       </Layout>
-
-    );
+    );      
   }
 }
 

@@ -2,8 +2,9 @@ import React from 'react';
 import RooMap from './rooMap.js';
 import MapForm from "./mapForm.js";
 import Home from './home.js';
+import ContactBody from './rooMap2'
 
-import './App.css'
+import '../../dist/App.css'
 
 import { Button } from 'semantic-ui-react';
 import { isBrowser } from "react-device-detect";
@@ -15,7 +16,7 @@ import {
 } from "react-router-dom";
 
 
-function App() {
+function App(mode = null) {
   return (
     <div className="App">
       <br></br>

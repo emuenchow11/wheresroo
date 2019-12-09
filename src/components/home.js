@@ -13,7 +13,7 @@ class Home extends Component {
 
                     <img className="main-pic" src="https://wheresroo-photo.s3-us-west-1.amazonaws.com/main.jpg" alt="main" border="0" />
                     <p><i>Boundaries? She knows none. Trees? Consider them climbed. From frat row to covel commons, no territory will be left uncharted. Welcome to Roo's adventures of Westwood</i></p>
-                    <p>Have you seen Roo? <Link to='/submit'>Submit your own sighting</Link> for the <Link to="/map">Roo Map!</Link> Looking for a good read? Checkout the <a>Daily Bruin article</a> featuring Roo!</p>
+                    <p>Have you seen Roo? <Link to='/submit'>Submit your own sighting</Link> for the <Link to="/map">Roo Map!</Link> Looking for a good read? Checkout the <a href='http://dailybruin.com/2019/09/18/pets-of-ucla-get-extra-love-on-social-media-create-community-for-animal-lovers/'>Daily Bruin article</a> featuring Roo!</p>
                     <br></br>
                     <Button color='instagram' as='a' href="https://www.instagram.com/wheresroo/">
                         <Icon name='instagram' /> Instagram

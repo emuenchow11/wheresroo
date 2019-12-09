@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import * as Constants from './constants.js'
 import * as config from '../../config.js';
 
 import { addEntry } from '../api';
-import S3FileUpload from 'react-s3';
+import S3FileUpload from 'aws-s3';
 import { Form } from 'semantic-ui-react';
 import Layout from './layout';
 
@@ -19,11 +18,6 @@ const configy = {
 
 
 const Marker = () => <img className="prints" src='https://wheresroo-photo.s3-us-west-1.amazonaws.com/pawprint.png' alt="hi" />
-
-
-const handleApiLoaded = (map, maps) => {
-  // use map and maps objects
-};
 
 class MapForm extends Component {
   constructor(props) {
@@ -94,12 +88,10 @@ class MapForm extends Component {
           </Form.Field>
           <div style={{ height: '70vh', width: '100%', margin: 'auto', paddingBottom: '25px' }}>
             <GoogleMapReact
-              bootstrapURLKeys={{ key: Constants.apiKey }}
-              defaultCenter={Constants.center}
-              defaultZoom={Constants.zoom}
-              yesIWantToUseGoogleMapApiInternals={true}
+              bootstrapURLKeys={{ key: config.apiKey }}
+              defaultCenter={config.center}
+              defaultZoom={config.zoom}
               onClick={e => this.handleClick(e)}
-              onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
             >
               <Marker
                 lat={this.state.location.lat}
@@ -108,8 +100,8 @@ class MapForm extends Component {
             </GoogleMapReact>
           </div>
           <Form.Field>
-            <label>Have a pic?</label>
-            <input type="file" accept="image/*" onChange={this.fileChangedHandler} multiple />
+            <label>Have a pic or video?</label>
+            <input type="file" accept="video/*,image/*" onChange={this.fileChangedHandler} multiple />
           </Form.Field>
 
           <br></br>
@@ -124,7 +116,6 @@ class MapForm extends Component {
           <br></br>
         </Form>
       </Layout>
-
     );
   }
 }

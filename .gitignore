@@ -1,4 +1,6 @@
 node_modules
-config
+config.js
 .next
 out
+.env
+src/components/upload.js

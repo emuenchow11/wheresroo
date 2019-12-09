@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getEntryList = () => {
-  return axios.get('/entries')
+  return axios.get('http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries')
     .then(resp => {
       return resp.data;
     })
@@ -9,7 +9,7 @@ export const getEntryList = () => {
 };
 
 export const getFullEntry = entryId => {
-  return axios.get(`/entries/${entryId}`)
+  return axios.get(`http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries/${entryId}`)
     .then(resp => resp.data)
     .catch(err => console.log(err));
 };
@@ -23,7 +23,7 @@ export const postFile = file => {
 
 */
 export const addEntry = ({ location, image, info, name }) => {
-  return axios.post('/entries', { lat: location.lat, lng: location.lng, image, info, name, show: false })
+  return axios.post('http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries', { lat: location.lat, lng: location.lng, image, info, name, show: false })
     .then(resp => resp.data)
     .catch(err => console.log(err));
 

@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon ./index.js --exec babel-node -e js",
-    "server": "nodemon ./server/server.js --exec babel-node -e js"
+    "server": "nodemon ./server/server.js --exec babel-node -e js",
+    "webpack": "./node_modules/.bin/webpack"
   },
   "repository": "https://github.com/emuenchow11/wheresroo.git",
   "author": "Lizzie <em3998@att.com>",

@@ -2,21 +2,17 @@ import React from 'react';
 import RooMap from './rooMap.js';
 import MapForm from "./mapForm.js";
 import Home from './home.js';
-import ContactBody from './rooMap2'
-
 import '../../dist/App.css'
 
-import { Button } from 'semantic-ui-react';
 import { isBrowser } from "react-device-detect";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 
-function App(mode = null) {
+function App() {
   return (
     <div className="App">
       <br></br>

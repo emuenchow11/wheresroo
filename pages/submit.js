@@ -6,18 +6,19 @@ import S3FileUpload from 'aws-s3';
 import { Form } from 'semantic-ui-react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import axios from 'axios'
 
 import '../dist/App.css';
 
 
 const Layout = dynamic(() => import('./layout'))
 
- const addEntry = ({ location, image, info, name }) => {
-    return axios.post('/entries', { lat: location.lat, lng: location.lng, image, info, name, show: false })
-      .then(resp => resp.data)
-      .catch(err => console.log(err));
-  
-  };
+export const addEntry = ({ location, image, info, name }) => {
+  return axios.post('http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries', { lat: location.lat, lng: location.lng, image, info, name, show: false })
+    .then(resp => resp.data)
+    .catch(err => console.log(err));
+
+};
 const configy = {
   bucketName: 'wheresroo-photo',
   dirName: 'map', /* optional */
@@ -90,50 +91,50 @@ class MapForm extends Component {
     return (
       <div>
         <Head>
-      <title>Where's Roo</title>
-      <link
-        rel="stylesheet"
-        href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
-      />
-    </Head>
-      <Layout>
-        <Form onSubmit={this.handleSubmit}>
-          <h2>Have You Spotted Roo?</h2>
-          <Form.TextArea label="Tell us about it" value={this.state.info} onChange={this.handleInfo} placeholder="Roo came up and sniffed me...." />
+          <title>Where's Roo</title>
+          <link
+            rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
+          />
+        </Head>
+        <Layout>
+          <Form onSubmit={this.handleSubmit}>
+            <h2>Have You Spotted Roo?</h2>
+            <Form.TextArea label="Tell us about it" value={this.state.info} onChange={this.handleInfo} placeholder="Roo came up and sniffed me...." />
 
-          <Form.Field>
-            <label>Where? Click on the map!</label>
-          </Form.Field>
-          <div style={{ height: '70vh', width: '100%', margin: 'auto', paddingBottom: '25px' }}>
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: config.apiKey }}
-              defaultCenter={config.center}
-              defaultZoom={config.zoom}
-              onClick={e => this.handleClick(e)}
-            >
-              <Marker
-                lat={this.state.location.lat}
-                lng={this.state.location.lng}
-              />
-            </GoogleMapReact>
-          </div>
-          <Form.Field>
-            <label>Have a pic or video?</label>
-            <input type="file" accept="video/*,image/*" onChange={this.fileChangedHandler} multiple />
-          </Form.Field>
+            <Form.Field>
+              <label>Where? Click on the map!</label>
+            </Form.Field>
+            <div style={{ height: '70vh', width: '100%', margin: 'auto', paddingBottom: '25px' }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: config.apiKey }}
+                defaultCenter={config.center}
+                defaultZoom={config.zoom}
+                onClick={e => this.handleClick(e)}
+              >
+                <Marker
+                  lat={this.state.location.lat}
+                  lng={this.state.location.lng}
+                />
+              </GoogleMapReact>
+            </div>
+            <Form.Field>
+              <label>Have a pic or video?</label>
+              <input type="file" accept="video/*,image/*" onChange={this.fileChangedHandler} multiple />
+            </Form.Field>
 
-          <br></br>
-          <Form.Field>
-            <label>From? (optional)</label>
-            <p className="insta">Include Instagram @ to be tagged on insta</p>
-            <Form.Input value={this.state.name} onChange={this.handleName} placeholder="@wheresroo" />
-          </Form.Field>
+            <br></br>
+            <Form.Field>
+              <label>From? (optional)</label>
+              <p className="insta">Include Instagram @ to be tagged on insta</p>
+              <Form.Input value={this.state.name} onChange={this.handleName} placeholder="@wheresroo" />
+            </Form.Field>
 
-          <br></br>
-          <Form.Button>Submit</Form.Button>
-          <br></br>
-        </Form>
-      </Layout> </div>
+            <br></br>
+            <Form.Button>Submit</Form.Button>
+            <br></br>
+          </Form>
+        </Layout> </div>
     );
   }
 }

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import * as config from '../config.js';
 
-import S3FileUpload from 'aws-s3';
-import { Form } from 'semantic-ui-react';
+import S3FileUpload from 'react-s3';
+import { Form, Message } from 'semantic-ui-react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import axios from 'axios'
@@ -34,6 +34,7 @@ class MapForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      success: false,
       location: {
         lat: null,
         lng: null
@@ -61,7 +62,10 @@ class MapForm extends Component {
   }
 
   handleInfo(event) {
-    this.setState({ info: event.target.value });
+    this.setState({
+      info: event.target.value,
+      success: false
+    });
   }
 
   handleName(event) {
@@ -77,6 +81,7 @@ class MapForm extends Component {
     addEntry(this.state);
     event.preventDefault();
     this.setState({
+      success: true,
       location: {
         lat: null,
         lng: null
@@ -98,7 +103,7 @@ class MapForm extends Component {
           />
         </Head>
         <Layout>
-          <Form onSubmit={this.handleSubmit}>
+          <Form success={this.state.success} onSubmit={this.handleSubmit}>
             <h2>Have You Spotted Roo?</h2>
             <Form.TextArea label="Tell us about it" value={this.state.info} onChange={this.handleInfo} placeholder="Roo came up and sniffed me...." />
 
@@ -132,6 +137,11 @@ class MapForm extends Component {
 
             <br></br>
             <Form.Button>Submit</Form.Button>
+            <Message
+              success
+              header='Thank you!'
+              content="Your entry should be added to the Roo Map soon"
+            />
             <br></br>
           </Form>
         </Layout> </div>

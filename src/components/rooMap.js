@@ -21,22 +21,22 @@ class Marker extends Component {
   }
 }
 const PopUp = props => {
-    var className = props.bPop ? "show " : "hidden ";
-    var anotherClass = isBrowser ? "not" : "mobile";
-    return (<div className={className + anotherClass}>
-      <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
-      <p>{props.pop.info}</p>
-      <span className="bold">{props.pop.name}</span>
-      <br></br>
-      <br></br>
-      <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
-    </div>);
-  }
+  var className = props.bPop ? "show " : "hidden ";
+  var anotherClass = isBrowser ? "not" : "mobile";
+  return (<div className={className + anotherClass}>
+    <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
+    <p>{props.pop.info}</p>
+    <span className="bold">{props.pop.name}</span>
+    <br></br>
+    <br></br>
+    <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
+  </div>);
+}
 
 
 
 class RooMap extends Component {
-_mounted=false;
+  _mounted = false;
   constructor(props) {
     super(props)
     this.state = {
@@ -58,20 +58,20 @@ _mounted=false;
   }
 
   componentDidMount() {
-    this._mounted=true;
-    axios.get('/entries')
+    this._mounted = true;
+    axios.get('http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries')
       .then(resp => {
         if (this._mounted)
           this.setState({ entries: resp.data });
       })
       .catch(err => console.log(err));
   }
-  componentWillUnmount(){
-    this._mounted=false;
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   showPopUp(index) {
-    axios.get(`/entries/${index}`)
+    axios.get(`http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries/${index}`)
       .then(resp => {
         this.setState({
           pop: {
@@ -80,7 +80,7 @@ _mounted=false;
             name: resp.data.name
           }
         });
-      
+
       })
       .catch(err => console.log(err));
     this.setState({ bPop: true });
@@ -97,7 +97,7 @@ _mounted=false;
       <Layout>
         <div style={{ height: '70vh', width: '100%', margin: 'auto' }}>
           <GoogleMapReact
-            bootstrapURLKeys={{key: config.apiKey}}
+            bootstrapURLKeys={{ key: config.apiKey }}
             defaultCenter={config.center}
             defaultZoom={config.zoom}>
             {
@@ -111,11 +111,11 @@ _mounted=false;
                 />
               })
             }
-          </GoogleMapReact> 
+          </GoogleMapReact>
           <PopUp pop={this.state.pop} bPop={this.state.bPop} closePopUp={this.closePopUp} />
         </div>
       </Layout>
-    );      
+    );
   }
 }
 

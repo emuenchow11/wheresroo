@@ -1,8 +1,15 @@
 const withCSS = require('@zeit/next-css')
-module.exports = withCSS({
-  exportPathMap: function () {
-    return {
-      '/': { page: '/' }
-    }
-  }
-})
+const withTM = require('next-transpile-modules');
+
+module.exports =
+  withCSS(withTM({
+    exportPathMap: function () {
+      return {
+        '/': { page: '/' }
+      }
+    },
+    transpileModules: ['react-s3'],
+  }))
+
+
+

@@ -34,6 +34,7 @@ class MapForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isMobile: false,
       success: false,
       location: {
         lat: null,
@@ -43,7 +44,6 @@ class MapForm extends Component {
       info: "",
       name: ""
     };
-
     this.handleClick = this.handleClick.bind(this);
     this.handleInfo = this.handleInfo.bind(this);
     this.handleName = this.handleName.bind(this);
@@ -51,8 +51,13 @@ class MapForm extends Component {
     this.fileChangedHandler = this.fileChangedHandler.bind(this);
   }
 
-  handleClick(e) {
+  componentDidMount() {
+    this.setState({ isMobile: WURFL.is_mobile }, function () {
+      console.log(this.state.isMobile);
+    });
+  }
 
+  handleClick(e) {
     this.setState({
       location: {
         lat: e.lat,
@@ -101,8 +106,9 @@ class MapForm extends Component {
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
           />
+          <script type='text/javascript' src='//wurfl.io/wurfl.js'></script>
         </Head>
-        <Layout>
+        <Layout isMobile={this.state.isMobile}>
           <Form success={this.state.success} onSubmit={this.handleSubmit}>
             <h2>Have You Spotted Roo?</h2>
             <Form.TextArea label="Tell us about it" value={this.state.info} onChange={this.handleInfo} placeholder="Roo came up and sniffed me...." />

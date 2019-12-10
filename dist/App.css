@@ -3,14 +3,14 @@
   text-align: center;
 }
 #roo{
-  width: 42px;
-  top: 1px;
+  width: 50px;
+  top: 3px;
   padding-right: 10px;
   position: relative;
 }
 
 #title {
-  font-size: 39px;
+  font-size: 43px;
 }
 .canvas{
   background: aliceblue;

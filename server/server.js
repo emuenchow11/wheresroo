@@ -1,7 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import routes from './routes/rooRoutes';
 import next from 'next';
 
 const dev = process.env.NODE_ENV !== "production";
@@ -22,7 +20,7 @@ app.prepare()
 
         server.use(bodyParser.urlencoded({ extended: true }));
         server.use(bodyParser.json());
-        routes(server)
+        //routes(server)
         server.use(express.static('dist'));
         server.use('/s3', require('react-s3-uploader/s3router')({
             bucket: "wheresroo-photo",

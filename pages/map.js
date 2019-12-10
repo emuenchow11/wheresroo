@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import * as config from '../config.js';
 import { Button } from 'semantic-ui-react';
-import { isBrowser } from "react-device-detect";
 import axios from 'axios';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-
 
 import '../dist/App.css';
 
@@ -25,26 +23,27 @@ class Marker extends Component {
     return <img className="prints" onClick={this.handleClick} src='https://wheresroo-photo.s3-us-west-1.amazonaws.com/pawprint.png' alt="hi" />
   }
 }
+
 const PopUp = props => {
   var className = props.bPop ? "show " : "hidden ";
-  var anotherClass = isBrowser ? "not" : "mobile";
-  return (<div className={className + anotherClass}>
-    <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
-    <p>{props.pop.info}</p>
-    <span className="bold">{props.pop.name}</span>
-    <br></br>
-    <br></br>
-    <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
-  </div>);
+  var anotherClass = props.isMobile ? "mobile" : "not";
+  return (
+    <div className={className + anotherClass}>
+      <img alt="hi" className={(props.isMobile ? "pop-mobile" : "pop-img")} src={props.pop.image}></img>
+      <p>{props.pop.info}</p>
+      <span className="bold">{props.pop.name}</span>
+      <br></br>
+      <br></br>
+      <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
+    </div>);
 }
-
-
 
 class RooMap extends Component {
   _mounted = false;
   constructor(props) {
     super(props)
     this.state = {
+      isMobile: false,
       mount: false,
       pop: {
         pic: "",
@@ -64,6 +63,9 @@ class RooMap extends Component {
 
   componentDidMount() {
     this._mounted = true;
+    this.setState({ isMobile: WURFL.is_mobile }, function () {
+      console.log(this.state.isMobile);
+    });
     axios.get('http://ec2-54-183-96-28.us-west-1.compute.amazonaws.com/entries')
       .then(resp => {
         if (this._mounted)
@@ -71,6 +73,7 @@ class RooMap extends Component {
       })
       .catch(err => console.log(err));
   }
+
   componentWillUnmount() {
     this._mounted = false;
   }
@@ -85,7 +88,6 @@ class RooMap extends Component {
             name: resp.data.name
           }
         });
-
       })
       .catch(err => console.log(err));
     this.setState({ bPop: true });
@@ -94,7 +96,6 @@ class RooMap extends Component {
   closePopUp() {
     this.setState({ bPop: false });
   }
-
 
   render() {
     return (
@@ -105,8 +106,9 @@ class RooMap extends Component {
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
           />
+          <script type='text/javascript' src='//wurfl.io/wurfl.js'></script>
         </Head>
-        <Layout>
+        <Layout isMobile={this.state.isMobile}>
           <div style={{ height: '70vh', width: '100%', margin: 'auto' }}>
             <GoogleMapReact
               bootstrapURLKeys={{ key: config.apiKey }}
@@ -124,13 +126,12 @@ class RooMap extends Component {
                 })
               }
             </GoogleMapReact>
-            <PopUp pop={this.state.pop} bPop={this.state.bPop} closePopUp={this.closePopUp} />
+            <PopUp isMobile={this.state.isMobile} pop={this.state.pop} bPop={this.state.bPop} closePopUp={this.closePopUp} />
           </div>
         </Layout>
       </div>
     );
   }
 }
-
 
 export default RooMap;

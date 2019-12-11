@@ -30,10 +30,10 @@ const PopUp = props => {
   var anotherClass = props.isMobile ? "mobile" : "not";
   return (
     <div className={className + anotherClass}>
-      {isImage(props.pop.image) ?
-        <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
+      {isImage(props.pop.image || "") ?
+        <img alt="hi" className={(props.isMobile ? "pop-mobile" : "pop-img")} src={props.pop.image}></img>
         :
-        <video controls="controls" className={(isBrowser ? "pop-img" : "pop-mobile")} height="351" src={props.pop.image}></video>
+        <video controls="controls" className={(props.isMobile ? "pop-mobile" : "pop-img")} height="351" src={props.pop.image}></video>
       }
       <p>{props.pop.info}</p>
       <span className="bold">{props.pop.name}</span>

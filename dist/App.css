@@ -1,123 +1,123 @@
 
 .App {
-  text-align: center;
-}
-#roo{
-  width: 50px;
-  top: 3px;
-  padding-right: 10px;
-  position: relative;
-}
-
-#title {
-  font-size: 43px;
-}
-.canvas{
-  background: aliceblue;
-}
-.prints {
-  height: 15px;
-  right: -12px;
-    top: -10px;
-    position: absolute;
-}
-
-
-.hidden {
-  display: none; 
-}
-
-.show {
-  position: relative;
+    text-align: center;
+  }
+  #roo{
+    width: 50px;
+    top: 3px;
+    padding-right: 10px;
+    position: relative;
+  }
   
-  margin: auto;
+  #title {
+    font-size: 43px;
+  }
+  .canvas{
+    background: aliceblue;
+  }
+  .prints {
+    height: 15px;
+    right: -12px;
+      top: -10px;
+      position: absolute;
+  }
   
-  max-width: 668px;
-  padding: 30px;
-  background: rgb(241, 212, 233);
-  border-radius: 39px;
-}
-
-.not {
-  top: 197px;
-  height: 411px; 
-  position: absolute;
-  right: 15%;
-  left: 15%;
-}
-
-.mobile{
-  top: -600px;
-}
-
-.pop-img {
-  height: 351px;
-  float: left;
-  padding-right: 20px;
-}
-
-.pop-mobile {
-  width: 280px;
-}
-
-
-
-.bold{
-    font-weight: bold;
-}
-
-
-
-
-
-.insta{
-  font-style: oblique;
-  font-size: 12px;
-  padding-left: 20px;
-  text-align: left;
-}
-
-.ui.buttons{
-  margin: auto;
-  width: 80%;
-}
-
-form{
-  width: 80%;
-  margin: auto;
-}
-
-label {
-  padding-left: 20px;
-  text-align: left;
-}
-
-
-
-
-.main-pic{
   
-    float: left;
-    height: 350px;
-    padding-right: 30px;
-
-}
-
-.home{
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-.flex{
-  display: flex; 
-  width: 100%;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-top: 30px;
+  .hidden {
+    display: none; 
+  }
+  
+  .show {
+    position: relative;
     
-}
-
-.flex-items{
-  height: 274px;
-  margin-bottom: 30px;
-}
+    margin: auto;
+    
+    max-width: 668px;
+    padding: 30px;
+    background: rgb(241, 212, 233);
+    border-radius: 39px;
+  }
+  
+  .not {
+    top: 197px;
+    height: 411px; 
+    position: absolute;
+    right: 15%;
+    left: 15%;
+  }
+  
+  .mobile{
+    top: -600px;
+  }
+  
+  .pop-img {
+    height: 351px;
+    float: left;
+    padding-right: 20px;
+  }
+  
+  .pop-mobile {
+    width: 280px;
+  }
+  
+  
+  
+  .bold{
+      font-weight: bold;
+  }
+  
+  
+  
+  
+  
+  .insta{
+    font-style: oblique;
+    font-size: 12px;
+    padding-left: 20px;
+    text-align: left;
+  }
+  
+  .ui.buttons{
+    margin: auto;
+    width: 80%;
+  }
+  
+  form{
+    width: 80%;
+    margin: auto;
+  }
+  
+  label {
+    padding-left: 20px;
+    text-align: left;
+  }
+  
+  
+  
+  
+  .main-pic{
+    
+      float: left;
+      height: 350px;
+      padding-right: 30px;
+  
+  }
+  
+  .home{
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .flex{
+    display: flex; 
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 30px;
+      
+  }
+  
+  .flex-items{
+    height: 274px;
+    margin-bottom: 30px;
+  }

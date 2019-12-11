@@ -37,10 +37,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: 'dist/app.html',
             favicon: 'dist/favicon.ico'
-        })
+        }),
+        new CleanWebpackPlugin(),
     ]
 };

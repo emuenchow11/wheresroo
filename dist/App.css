@@ -39,8 +39,11 @@
 }
 
 .not {
-  top: -550px;
+  top: 197px;
   height: 411px; 
+  position: absolute;
+  right: 15%;
+  left: 15%;
 }
 
 .mobile{

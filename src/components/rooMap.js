@@ -4,6 +4,7 @@ import * as config from '../../config.js';
 import { Button } from 'semantic-ui-react';
 import { isBrowser } from "react-device-detect";
 import axios from 'axios';
+import isImage from 'is-image';
 
 import Layout from './layout';
 
@@ -23,14 +24,19 @@ class Marker extends Component {
 const PopUp = props => {
   var className = props.bPop ? "show " : "hidden ";
   var anotherClass = isBrowser ? "not" : "mobile";
-  return (<div className={className + anotherClass}>
-    <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
-    <p>{props.pop.info}</p>
-    <span className="bold">{props.pop.name}</span>
-    <br></br>
-    <br></br>
-    <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
-  </div>);
+  return (
+    <div className={className + anotherClass}>
+      {isImage(props.pop.image) ?
+        <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
+        :
+        <video controls="controls" className={(isBrowser ? "pop-img" : "pop-mobile")} height="351" src={props.pop.image}></video>
+      }
+      <p>{props.pop.info}</p>
+      <span className="bold">{props.pop.name}</span>
+      <br></br>
+      <br></br>
+      <Button className="secondary basic" onClick={props.closePopUp}>Close</Button>
+    </div>);
 }
 
 

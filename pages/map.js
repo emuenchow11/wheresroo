@@ -5,6 +5,7 @@ import { Button } from 'semantic-ui-react';
 import axios from 'axios';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import isImage from 'is-image';
 
 import '../dist/App.css';
 
@@ -29,7 +30,11 @@ const PopUp = props => {
   var anotherClass = props.isMobile ? "mobile" : "not";
   return (
     <div className={className + anotherClass}>
-      <img alt="hi" className={(props.isMobile ? "pop-mobile" : "pop-img")} src={props.pop.image}></img>
+      {isImage(props.pop.image) ?
+        <img alt="hi" className={(isBrowser ? "pop-img" : "pop-mobile")} src={props.pop.image}></img>
+        :
+        <video controls="controls" className={(isBrowser ? "pop-img" : "pop-mobile")} height="351" src={props.pop.image}></video>
+      }
       <p>{props.pop.info}</p>
       <span className="bold">{props.pop.name}</span>
       <br></br>

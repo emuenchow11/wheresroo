@@ -1,7 +1,8 @@
 //const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const port = process.env.PORT || 3000;
+
 module.exports = {
     // Webpack configuration goes here
     mode: 'development',
@@ -9,7 +10,7 @@ module.exports = {
     output: {
         filename: 'bundle.js'
     },
-    devtool: 'inline-source-map',
+
     module: {
         rules: [
 
@@ -36,15 +37,10 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: 'dist/app.html',
             favicon: 'dist/favicon.ico'
         })
-    ],
-    devServer: {
-        host: 'localhost',
-        port: port,
-        historyApiFallback: true,
-        open: true
-    }
+    ]
 };
